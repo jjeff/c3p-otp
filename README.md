@@ -47,9 +47,9 @@ const otp = new OtpSet({
 | container | HTMLElement | null | The container element for the OTP fields. |
 | fields | Number | 6 | The number of OTP fields to create. |
 | callback | Function | null | An optional callback function to handle the OTP. |
-| submit | Boolean | false | Whether or not to add a submit button. |
-| submitText | String | 'Submit' | The text to display on the submit button. |
-| submitClass | String | 'otp-submit' | The class to add to the submit button. |
+| submit | Boolean | false | Optional: Whether or not to add a submit button. |
+| submitText | String | 'Submit' | Optional: The text to display on the submit button. |
+| submitClass | String | 'otp-submit' | Optional:The class to add to the submit button. |
 
 ## Events
 
@@ -64,6 +64,9 @@ const otp = new OtpSet({
 | --- | --- |
 | reset() | Resets the OTP fields. |
 | destroy() | Destroys the OTP fields. |
+| getOtp() | Returns the OTP as a string. |
+| on(event, callback) | Adds an event listener. |
+| off(event, callback) | Removes an event listener. |
 
 ## License
 

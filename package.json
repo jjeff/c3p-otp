@@ -3,6 +3,10 @@
   "version": "0.0.0-development",
   "description": "OTP for droids",
   "main": "dist/index.js",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
   "directories": {
     "test": "test"
   },

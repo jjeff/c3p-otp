@@ -21,13 +21,13 @@ export class OtpSet {
   constructor(options: OtpSetOptions) {
     this.container = options.container;
     this.fields = options.fields;
-    this.callback = options.callback || (() => {});
+    this.callback = options.callback || (() => { });
     this.submit = options.submit || false;
     this.submitText = options.submitText || 'Submit';
     this.submitClass = options.submitClass || 'otp-submit';
     this.container.classList.add('otp-container');
     this.css = options.css || '';
-    
+
     this.init();
   }
 
@@ -106,6 +106,104 @@ export class OtpSet {
       ${this.css}
     `;
     this.container.appendChild(style);
+
+    // Focus first input
+    const firstInput = this.container.querySelector('input') as HTMLInputElement;
+    if (firstInput) {
+      firstInput.focus();
+    }
+
+    // Emit otp-input event
+    this.container.addEventListener('keyup', () => {
+      const otp = this.getOtp();
+      this.emit('otp-input', otp);
+    });
+
+    // Allow pasting OTP
+    this.container.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = e.clipboardData.getData('text/plain');
+      this.pasteOtp(text);
+    });
+
+    // Handle backspace
+    this.container.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (e.key === 'Backspace' && target.value.length === 0) {
+        const prev = target.previousElementSibling as HTMLInputElement;
+        if (prev) {
+          prev.focus();
+        }
+      }
+    });
+
+    // Handle delete
+    this.container.addEventListener('keyup', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (e.key === 'Delete' && target.value.length === 1) {
+        const next = target.nextElementSibling as HTMLInputElement;
+        if (next) {
+          next.focus();
+        }
+      }
+    });
+
+    // Handle arrow keys
+    this.container.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (e.key === 'ArrowLeft') {
+        const prev = target.previousElementSibling as HTMLInputElement;
+        if (prev) {
+          prev.focus();
+        }
+      }
+      if (e.key === 'ArrowRight') {
+        const next = target.nextElementSibling as HTMLInputElement;
+        if (next) {
+          next.focus();
+        }
+      }
+    });
+
+    // Handle tab
+    this.container.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          const prev = target.previousElementSibling as HTMLInputElement;
+          if (prev) {
+            prev.focus();
+          }
+        } else {
+          const next = target.nextElementSibling as HTMLInputElement;
+          if (next) {
+            next.focus();
+          }
+        }
+      }
+    });
+
+    // Handle enter
+    this.container.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (e.key === 'Enter') {
+        target.blur();
+        if (this.submit) {
+          this.submitForm();
+        }
+      }
+    });
+  }
+
+  pasteOtp(otp: string) {
+    const inputs = this.container.querySelectorAll('input');
+    otp.split('').forEach((char, index) => {
+      const input = inputs[index] as HTMLInputElement;
+      if (!input) {
+        return;
+      }
+      input.value = char;
+    });
   }
 
   /**
