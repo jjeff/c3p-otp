@@ -18,7 +18,11 @@
     }
   },
   "include": [
-    // we're never running tsc, so it's okay to include all files
     "**/*",
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    "dist/**/*",
+    "test/**/*",
   ]
 }

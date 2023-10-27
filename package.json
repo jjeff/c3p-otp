@@ -1,7 +1,7 @@
 {
-  "name": "jjeff-typescript-template",
+  "name": "c3p-otp",
   "version": "0.0.0-development",
-  "description": "Starter template for my projects",
+  "description": "OTP for droids",
   "main": "dist/index.js",
   "directories": {
     "test": "test"
